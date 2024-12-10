@@ -12,6 +12,9 @@ builder.Services.AddDbContext<DataContext>(option =>
 {
     option.UseSqlite(builder.Configuration.GetConnectionString("AppConnectionString"));
 });
+
+builder.Services.AddCors();
+
 // Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi
 builder.Services.AddOpenApi();
 
@@ -33,6 +36,7 @@ app.UseHttpsRedirection();
 app.UseAuthorization();
 */
 
+app.UseCors(x => x.AllowAnyHeader().AllowAnyMethod().WithOrigins("http://localhost:4200", "https://localhost:4200"));
 // The instructor said that we need the MapController middleware to
 // map the controller endpoints that we'll be creating.
 app.MapControllers();

@@ -1,5 +1,6 @@
 using API.Data;
 using API.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -8,7 +9,7 @@ namespace API.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class UserController(DataContext context) : ControllerBase
+    public class UserController(DataContext context) : BaseAPIController
     {
         #region Properties
         #endregion
@@ -25,6 +26,7 @@ namespace API.Controllers
             return userList;
         }
 
+        [Authorize]
         [HttpGet("{id:int}")] // api/user/3
         public async Task<ActionResult<User>> GetUsers(int id)
         {

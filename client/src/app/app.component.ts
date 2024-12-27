@@ -19,10 +19,6 @@ export class AppComponent implements OnInit {
   private accountService = inject(AccountService);
   //#endregion
 
-  //#region Constructors
-  constructor() {}
-  //#endregion
-
   //#region Methods
 
   setCurrentUser() {

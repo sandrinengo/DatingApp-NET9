@@ -9,6 +9,7 @@ import {
 import { FormsModule } from '@angular/forms';
 import { User } from '../_models/user.model';
 import { AccountService } from '../_services/account.service';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-register',
@@ -21,6 +22,7 @@ export class RegisterComponent implements AfterViewInit {
   @ViewChild('txtUserName') inputElement!: ElementRef<HTMLInputElement>;
 
   private accountService = inject(AccountService);
+  private toastr = inject(ToastrService);
   model: User = new User();
   cancelRegisteOutput = output<boolean>();
 
@@ -30,6 +32,7 @@ export class RegisterComponent implements AfterViewInit {
         console.log(response);
         this.cancelRegister();
       },
+      error: (error) => this.toastr.error(error.error),
     });
   }
 

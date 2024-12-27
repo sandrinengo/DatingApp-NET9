@@ -17,12 +17,17 @@ export class AccountService {
 
   //#region Methods
   userLogin(model: User) {
-    return this.http.post<User>(this.baseURL + 'account/login', model).pipe(
-      map((user) => {
-        if (user) {
+    let user = new User();
+    return this.http.post<any>(this.baseURL + 'account/login', model).pipe(
+      map((response) => {
+        if (response) {
+          console.log(response);
+          // user.username = response.userName;
+          // user.token = response.Token;
+          user = response;
           localStorage.setItem('userKey', JSON.stringify(user));
           this.currentUser.set(user);
-          this.username = model.Username;
+          this.username = model.username;
         }
       })
     );
@@ -40,7 +45,7 @@ export class AccountService {
         if (user) {
           localStorage.setItem('userKey', JSON.stringify(user));
           this.currentUser.set(user);
-          this.username = model.Username;
+          this.username = model.username;
         }
         return user;
       })

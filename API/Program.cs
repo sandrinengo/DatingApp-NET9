@@ -1,5 +1,7 @@
+using API.Data;
 using API.Extensions;
 using API.Middleware;
+using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -21,5 +23,23 @@ app.UseAuthorization();
 // The instructor said that we need the MapController middleware to
 // map the controller endpoints that we'll be creating.
 app.MapControllers();
+
+
+using var scope = app.Services.CreateScope();
+var services = scope.ServiceProvider;
+
+try
+{
+	var context = services.GetRequiredService<DataContext>();
+
+	await context.Database.MigrateAsync();
+	await Seed.SeedUsers(context);
+}
+catch (Exception ex)
+{
+	var logger = services.GetRequiredService<ILogger<Program>>();
+
+	logger.LogError(ex, "An error occurred during migration");
+}
 
 app.Run();

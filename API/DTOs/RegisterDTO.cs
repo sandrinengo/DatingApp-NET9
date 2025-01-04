@@ -9,6 +9,6 @@ public class RegisterDTO
     public string Username { get; set; } = string.Empty;
 
     [Required]
-    [StringLength(24, MinimumLength = 14)]
+    [StringLength(10, MinimumLength = 4)]
     public string Password { get; set; } = string.Empty;
 }

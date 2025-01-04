@@ -30,21 +30,22 @@ namespace API.Controllers
             if (await UserExists(registerDTO.Username))
                 return BadRequest("Username exists");
 
-            using var hmac = new HMACSHA256();
-            var user = new User
-            {
-                UserName = registerDTO.Username.ToLower(),
-                PasswordHash = hmac.ComputeHash(Encoding.UTF8.GetBytes(registerDTO.Password)),
-                PasswordSalt = hmac.Key
-            };
-
-            context.Users.Add(user);
-            await context.SaveChangesAsync();
-            return new UserDTO
-            {
-                Username = user.UserName,
-                Token = tokenService.CreateToken(user)
-            };
+            //             using var hmac = new HMACSHA256();
+            //             var user = new User
+            //             {
+            //                 UserName = registerDTO.Username.ToLower(),
+            //                 PasswordHash = hmac.ComputeHash(Encoding.UTF8.GetBytes(registerDTO.Password)),
+            //                 PasswordSalt = hmac.Key
+            //             };
+            // 
+            //             context.Users.Add(user);
+            //             await context.SaveChangesAsync();
+            //             return new UserDTO
+            //             {
+            //                 Username = user.UserName,
+            //                 Token = tokenService.CreateToken(user)
+            //             };
+            return Ok();
         }
 
         [HttpPost("login")]
@@ -57,7 +58,8 @@ namespace API.Controllers
                 return Unauthorized("Invalid user");
             }
 
-            using var hmac = new HMACSHA256(user.PasswordSalt);
+            //using var hmac = new HMACSHA256(user.PasswordSalt);
+            using var hmac = new HMACSHA512(user.PasswordSalt);
             var computerHash = hmac.ComputeHash(Encoding.UTF8.GetBytes(loginDTO.Password));
 
             for (int i = 0; i < computerHash.Length; i++)

@@ -45,3 +45,7 @@
 	padding: 15px 0;
   }
   
+  .g-slider {
+	--thumb-centralize-start-size: 0 !important;
+	--thumb-centralize-end-size: 0 !important;
+  }  

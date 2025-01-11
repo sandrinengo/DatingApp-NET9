@@ -22,16 +22,18 @@ export class AccountService {
     return this.http.post<any>(this.baseURL + 'account/login', model).pipe(
       map((response) => {
         if (response) {
-          console.log(response);
-          // user.username = response.userName;
-          // user.token = response.Token;
           user = response;
-          localStorage.setItem('userKey', JSON.stringify(user));
-          this.currentUser.set(user);
-          this.username = model.username;
+          this.setCurrentUser(user);
+          this.username = user.username;
         }
       })
     );
+  }
+
+  setCurrentUser(user: User) {
+    localStorage.setItem('userKey', JSON.stringify(user));
+    this.currentUser.set(user);
+    this.username = user.username;
   }
 
   userLogout() {
@@ -44,9 +46,7 @@ export class AccountService {
     return this.http.post<User>(this.baseURL + 'account/register', model).pipe(
       map((user) => {
         if (user) {
-          localStorage.setItem('userKey', JSON.stringify(user));
-          this.currentUser.set(user);
-          this.username = model.username;
+          this.setCurrentUser(user);
         }
         return user;
       })

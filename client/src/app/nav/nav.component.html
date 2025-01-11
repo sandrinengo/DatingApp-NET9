@@ -28,6 +28,9 @@
         </ul>
         @if(accountService.currentUser()){
         <div class="dropdown">
+            <img class="me-2" src="{{accountService.currentUser()?.photoURL || './assets/user.png'}}"
+                alt="{{accountService.currentUser()?.username}} photo">
+
             <a class="dropdown-toggle text-light text-decoration-none" data-bs-toggle="dropdown" role="button"
                 aria-haspopup="true" aria-expanded="false">Welcome
                 <!-- {{ globalService.capitalizeFirstWord(accountService.username) }} -->

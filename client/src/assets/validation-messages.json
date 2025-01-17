@@ -1,0 +1,14 @@
+{
+	"password":{
+		"required":"Please enter a password.",
+		"minlength":"Password must be at least 4 characters.",
+		"maxlength":"Password must be at most 8 characters."
+	},
+	"confirmPassword":{
+		"required":"Please enter a confirm password.",
+		"isMatching":"Confirm password must match password."
+	},
+	"username":{
+		"required":"Please enter a username."
+	}
+}

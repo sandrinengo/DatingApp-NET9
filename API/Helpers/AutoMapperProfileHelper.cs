@@ -16,5 +16,7 @@ public class AutoMapperProfileHelper : Profile
 		.ForMember(d => d.PhotoURL, o => o.MapFrom(s => s.Photos.FirstOrDefault(x => x.IsMain)!.URL));//d = destination o = option s = source. Use Null Forgiving ! to remove the NULL warning.
 		CreateMap<Photo, PhotoDTO>();
 		CreateMap<MemberUpdateDTO, User>();
+		CreateMap<RegisterDTO, User>();
+		CreateMap<string, DateOnly>().ConvertUsing(source => DateOnly.Parse(source));// this is for the DOB, otherwise it will get error.
 	}
 }

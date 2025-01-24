@@ -1,4 +1,7 @@
 export interface IUser {
-  username: string;
-  token: string;
+	username: string;
+	knownAs: string;
+	gender: string;
+	photoUrl?: string;
+	token: string;
 }

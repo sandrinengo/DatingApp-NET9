@@ -12,6 +12,7 @@ import { Photo } from "../_models/photo";
 import { PaginatedResult } from "../_models/pagination";
 import { UserParams } from "../_models/userParams";
 import { AccountService } from "./account.service";
+import { setPaginatedResponse, setPaginationHeader } from "./paginationHelper";
 
 @Injectable({
 	providedIn: "root",
@@ -36,9 +37,9 @@ export class MembersService {
 			Object.values(this.userParams()).join("-")
 		);
 
-		if (response) return this.setPaginatedResponse(response);
+		if (response) return setPaginatedResponse(response, this.paginatedResult);
 
-		let params = this.setPaginationHeader(
+		let params = setPaginationHeader(
 			this.userParams().pageNumber,
 			this.userParams().pageSize
 		);
@@ -50,7 +51,7 @@ export class MembersService {
 			.get<Member[]>(this.baseURL + "user", { observe: "response", params })
 			.subscribe({
 				next: response => {
-					this.setPaginatedResponse(response);
+					setPaginatedResponse(response, this.paginatedResult);
 					// So, the idea is that when the client calls the get members method here or our component does, then first
 					// of all we check to see if we've already got this inside our member cache.
 					// Every time we make a request, then we're effectively storing that inside our member cache.
@@ -121,23 +122,5 @@ export class MembersService {
 			//     ),
 			// })
 			();
-	}
-
-	private setPaginationHeader(pageNumber: number, pageSize: number) {
-		let params = new HttpParams();
-
-		if (pageNumber && pageSize) {
-			params = params.append("pageNumber", pageNumber);
-			params = params.append("pageSize", pageSize);
-		}
-
-		return params;
-	}
-
-	private setPaginatedResponse(response: HttpResponse<Member[]>) {
-		this.paginatedResult.set({
-			items: response.body as Member[],
-			pagination: JSON.parse(response.headers.get("Pagination")!),
-		});
 	}
 }
